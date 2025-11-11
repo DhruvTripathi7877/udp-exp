@@ -3,10 +3,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
 
+
+// TODO: Dynamically set the network interface based on available interfaces (ListInterfaces.java file has a method for it)
 public class MulticastServerThread extends Thread {
     MulticastSocket socket;  // Changed from DatagramSocket
     BufferedReader in;
@@ -22,7 +23,7 @@ public class MulticastServerThread extends Thread {
         socket = new MulticastSocket();
         
         // Get en0 interface
-        NetworkInterface netif = NetworkInterface.getByName("en0");
+        NetworkInterface netif = NetworkInterface.getByName("wlan2");
         if (netif == null) {
             System.out.println("WARNING: en0 interface not found, using default");
         } else {
