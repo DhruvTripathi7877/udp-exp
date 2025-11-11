@@ -4,29 +4,37 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
-import java.util.Enumeration;
 
 public class MulticastClient {
     public static void main(String[] args) throws IOException {
         InetAddress inetAddress = InetAddress.getByName("228.5.6.7");
         InetSocketAddress socketAddress = new InetSocketAddress(inetAddress, 4446);
 
-        NetworkInterface netif = null;
 
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-        while (interfaces.hasMoreElements()) {
-        NetworkInterface nif = interfaces.nextElement();
-        if (nif.isUp() && !nif.isLoopback() && nif.supportsMulticast()) {
-            netif = nif;
-            break;
-            }
-        }
+        /*
+         * NetworkInterface netif = null;
 
+Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+while (interfaces.hasMoreElements()) {
+    NetworkInterface nif = interfaces.nextElement();
+    if (nif.isUp() && !nif.isLoopback() && nif.supportsMulticast()) {
+        netif = nif;
+        break;
+    }
+}
+
+if (netif == null) {
+    System.out.println("ERROR: No suitable network interface found!");
+    return;
+}
+         */
+
+        NetworkInterface netif = NetworkInterface.getByName("wlan2");
         if (netif == null) {
-            System.out.println("ERROR: No suitable network interface found!");
+            System.out.println("ERROR: en0 interface not found!");
             return;
         }
-
+        
         MulticastSocket socket = new MulticastSocket(4446);
         socket.setNetworkInterface(netif);  // Set interface before joining
 
